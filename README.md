@@ -23,6 +23,7 @@ $ git push origin --all
 Create a working branch:
 
 ```
+$ git checkout master
 $ git checkout -b my-patch
 ```
 
