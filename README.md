@@ -14,6 +14,7 @@ $ git push origin --all
 ## How to sync
 
 ```
+$ git checkout master
 $ git svn rebase
 $ git push origin --all
 ```
