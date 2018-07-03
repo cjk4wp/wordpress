@@ -33,7 +33,7 @@ matrix:
   - php: nightly
 before_install:
 - git fetch --all
-- git checkout master
+- git checkout origin/master
 - |
   if [[ "$WP_TRAVISCI" == "travis:phpunit" ]]; then
       mysql -u root -e "CREATE DATABASE wordpress_tests;"
