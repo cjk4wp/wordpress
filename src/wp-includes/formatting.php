@@ -3636,6 +3636,9 @@ function wp_trim_excerpt( $text = '' ) {
 		$text = apply_filters( 'the_content', $text );
 		$text = str_replace( ']]>', ']]&gt;', $text );
 
+		/* translators: This sets the text length for the excerpt. */
+		$localized_excerpt_length = _x( '55', 'excerpt_length' );
+
 		/**
 		 * Filters the number of words in an excerpt.
 		 *
@@ -3643,7 +3646,7 @@ function wp_trim_excerpt( $text = '' ) {
 		 *
 		 * @param int $number The number of words. Default 55.
 		 */
-		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		$excerpt_length = apply_filters( 'excerpt_length', intval( $localized_excerpt_length ) );
 		/**
 		 * Filters the string in the "more" link displayed after a trimmed excerpt.
 		 *
