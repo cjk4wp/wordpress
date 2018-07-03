@@ -1,6 +1,6 @@
 # WordPress
 
-[![Build Status](https://travis-ci.org/miya0001/wpdev.svg?branch=doc)](https://travis-ci.org/miya0001/wpdev)
+[![Build Status](https://travis-ci.org/miya0001/wpdev.svg?branch=master)](https://travis-ci.org/miya0001/wpdev)
 
 This is a private development repository for WordPress
 
