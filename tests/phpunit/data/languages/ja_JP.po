@@ -40,3 +40,8 @@ msgstr "number_format_thousands_sep"
 #: wp-includes/script-loader.php:620
 msgid "Update %s now"
 msgstr "今すぐ %s を更新"
+
+#. translators: This sets the text length for the excerpt.
+#: wp-includes/formatting.php:3640
+msgid "excerpt_length"
+msgstr "110"
