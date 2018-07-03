@@ -31,9 +31,10 @@ matrix:
   - php: nightly
   allow_failures:
   - php: nightly
-before_install:
-- git fetch --all
-- git checkout origin/master
+install:
+- git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+- cd $TRAVIS_REPO_SLUG
+- git checkout master
 - |
   if [[ "$WP_TRAVISCI" == "travis:phpunit" ]]; then
       mysql -u root -e "CREATE DATABASE wordpress_tests;"
