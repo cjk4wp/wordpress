@@ -32,6 +32,7 @@ matrix:
   allow_failures:
   - php: nightly
 before_install:
+- ls -al
 - git checkout master
 - |
   if [[ "$WP_TRAVISCI" == "travis:phpunit" ]]; then
