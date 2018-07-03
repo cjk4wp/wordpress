@@ -2571,7 +2571,7 @@ mockedApiResponse.Schema = {
                                 "de_DE",
                                 "en_GB",
                                 "es_ES",
-                                "ja"
+                                "ja_JP"
                             ],
                             "description": "Locale for the user.",
                             "type": "string"
@@ -2699,7 +2699,7 @@ mockedApiResponse.Schema = {
                                 "de_DE",
                                 "en_GB",
                                 "es_ES",
-                                "ja"
+                                "ja_JP"
                             ],
                             "description": "Locale for the user.",
                             "type": "string"
@@ -2837,7 +2837,7 @@ mockedApiResponse.Schema = {
                                 "de_DE",
                                 "en_GB",
                                 "es_ES",
-                                "ja"
+                                "ja_JP"
                             ],
                             "description": "Locale for the user.",
                             "type": "string"

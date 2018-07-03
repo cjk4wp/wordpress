@@ -53,7 +53,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertEmpty( $array );
 
 		$array = get_available_languages( DIR_TESTDATA . '/languages/' );
-		$this->assertEquals( array( 'de_DE', 'en_GB', 'es_ES', 'ja' ), $array );
+		$this->assertEquals( array( 'de_DE', 'en_GB', 'es_ES', 'ja_JP' ), $array );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertContains( '<option value="" lang="en" data-installed="1">English (United States)</option>', $actual );
 		$this->assertContains( '<option value="de_DE" lang="de" selected=\'selected\' data-installed="1">Deutsch</option>', $actual );
 		$this->assertContains( '<option value="it_IT" lang="it">Italiano</option>', $actual );
-		$this->assertContains( '<option value="ja" lang="ja">日本語</option>', $actual );
+		$this->assertContains( '<option value="ja_JP" lang="ja">日本語</option>', $actual );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertContains( '<option value="" lang="en" data-installed="1">English (United States)</option>', $actual );
 		$this->assertContains( '<option value="de_DE" lang="de" selected=\'selected\' data-installed="1">Deutsch</option>', $actual );
 		$this->assertContains( '<option value="it_IT" lang="it">Italiano</option>', $actual );
-		$this->assertContains( '<option value="ja" lang="ja">日本語</option>', $actual );
+		$this->assertContains( '<option value="ja_JP" lang="ja">日本語</option>', $actual );
 	}
 
 	/**
@@ -143,19 +143,19 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertContains( '<option value="" lang="en" data-installed="1" selected=\'selected\'>English (United States)</option>', $actual );
 		$this->assertContains( '<option value="de_DE" lang="de" data-installed="1">Deutsch</option>', $actual );
 		$this->assertContains( '<option value="it_IT" lang="it">Italiano</option>', $actual );
-		$this->assertContains( '<option value="ja" lang="ja">日本語</option>', $actual );
+		$this->assertContains( '<option value="ja_JP" lang="ja">日本語</option>', $actual );
 	}
 
 	/**
-	 * Add site default language to ja in dropdown
+	 * Add site default language to ja_JP in dropdown
 	 */
-	function test_wp_dropdown_languages_site_default_ja() {
+	function test_wp_dropdown_languages_site_default_ja_JP() {
 		$args   = array(
 			'id'                       => 'foo',
 			'name'                     => 'bar',
-			'languages'                => array( 'ja' ),
+			'languages'                => array( 'ja_JP' ),
 			'translations'             => $this->wp_dropdown_languages_filter(),
-			'selected'                 => 'ja',
+			'selected'                 => 'ja_JP',
 			'echo'                     => false,
 			'show_option_site_default' => true,
 		);
@@ -167,19 +167,19 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertContains( '<option value="" lang="en" data-installed="1">English (United States)</option>', $actual );
 		$this->assertContains( '<option value="de_DE" lang="de">Deutsch</option>', $actual );
 		$this->assertContains( '<option value="it_IT" lang="it">Italiano</option>', $actual );
-		$this->assertContains( '<option value="ja" lang="ja" selected=\'selected\' data-installed="1">日本語</option>', $actual );
+		$this->assertContains( '<option value="ja_JP" lang="ja" selected=\'selected\' data-installed="1">日本語</option>', $actual );
 	}
 
 	/**
-	 * Select dropdown language from de_DE to ja
+	 * Select dropdown language from de_DE to ja_JP
 	 */
-	function test_wp_dropdown_languages_ja_selected() {
+	function test_wp_dropdown_languages_ja_JP_selected() {
 		$args   = array(
 			'id'           => 'foo',
 			'name'         => 'bar',
 			'languages'    => array( 'de_DE' ),
 			'translations' => $this->wp_dropdown_languages_filter(),
-			'selected'     => 'ja',
+			'selected'     => 'ja_JP',
 			'echo'         => false,
 		);
 		$actual = wp_dropdown_languages( $args );
@@ -189,7 +189,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertContains( '<option value="" lang="en" data-installed="1">English (United States)</option>', $actual );
 		$this->assertContains( '<option value="de_DE" lang="de" data-installed="1">Deutsch</option>', $actual );
 		$this->assertContains( '<option value="it_IT" lang="it">Italiano</option>', $actual );
-		$this->assertContains( '<option value="ja" lang="ja" selected=\'selected\'>日本語</option>', $actual );
+		$this->assertContains( '<option value="ja_JP" lang="ja" selected=\'selected\'>日本語</option>', $actual );
 	}
 
 	/**
@@ -209,8 +209,8 @@ class Tests_L10n extends WP_UnitTestCase {
 				'native_name' => 'Italiano',
 				'iso'         => array( 'it', 'ita' ),
 			),
-			'ja' => array(
-				'language'    => 'ja',
+			'ja_JP' => array(
+				'language'    => 'ja_JP',
 				'native_name' => '日本語',
 				'iso'         => array( 'ja' ),
 			),
