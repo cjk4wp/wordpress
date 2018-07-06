@@ -88,7 +88,8 @@ function current_time( $type, $gmt = 0 ) {
  * @param string   $dateformatstring      Format to display the date.
  * @param int|bool $timestamp_with_offset Optional. A sum of Unix timestamp and timezone offset in seconds.
  *                                        Default false.
- * @param bool     $gmt                   Optional. Whether to use GMT timezone. Default false.
+ * @param bool     $gmt                   Optional. Whether to use GMT timezone. Only applies if timestamp is
+ *                                        not provided. Default false.
  *
  * @return string The date, translated if locale specifies it.
  */
@@ -105,6 +106,9 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 	 * See https://core.trac.wordpress.org/ticket/9396
 	 */
 	$req_format = $dateformatstring;
+
+	$dateformatstring = preg_replace( "/(?<!\\\\)c/", DATE_W3C, $dateformatstring );
+	$dateformatstring = preg_replace( "/(?<!\\\\)r/", DATE_RFC2822, $dateformatstring );
 
 	if ( ( ! empty( $wp_locale->month ) ) && ( ! empty( $wp_locale->weekday ) ) ) {
 		$datemonth            = $wp_locale->get_month( date( 'm', $i ) );
@@ -127,6 +131,9 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 	$timezone_formats_re = implode( '|', $timezone_formats );
 	if ( preg_match( "/$timezone_formats_re/", $dateformatstring ) ) {
 		$timezone_string = get_option( 'timezone_string' );
+		if ( false === $timestamp_with_offset && $gmt ) {
+			$timezone_string = 'UTC';
+		}
 		if ( $timezone_string ) {
 			$timezone_object = timezone_open( $timezone_string );
 			$date_object     = date_create( null, $timezone_object );
@@ -180,7 +187,8 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 	 * @param string $j          Formatted date string.
 	 * @param string $req_format Format to display the date.
 	 * @param int    $i          A sum of Unix timestamp and timezone offset in seconds.
-	 * @param bool   $gmt        Whether to convert to GMT for time. Default false.
+	 * @param bool   $gmt        Whether to use GMT timezone. Only applies if timestamp was
+	 *                           not provided. Default false.
 	 */
 	$j = apply_filters( 'date_i18n', $j, $req_format, $i, $gmt );
 	return $j;
@@ -1804,7 +1812,7 @@ function path_join( $base, $path ) {
  * @since 3.9.0
  * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
  * @since 4.5.0 Allows for Windows network shares.
- * @since 5.0.0 Allows for PHP file wrappers.
+ * @since 4.9.7 Allows for PHP file wrappers.
  *
  * @param string $path Path to normalize.
  * @return string Normalized path.
@@ -5840,6 +5848,28 @@ function wp_delete_file( $file ) {
 	if ( ! empty( $delete ) ) {
 		@unlink( $delete );
 	}
+}
+
+/**
+ * Deletes a file if its path is within the given directory.
+ *
+ * @since 4.9.7
+ *
+ * @param string $file      Absolute path to the file to delete.
+ * @param string $directory Absolute path to a directory.
+ * @return bool True on success, false on failure.
+ */
+function wp_delete_file_from_directory( $file, $directory ) {
+	$real_file = realpath( wp_normalize_path( $file ) );
+	$real_directory = realpath( wp_normalize_path( $directory ) );
+
+	if ( false === $real_file || false === $real_directory || strpos( wp_normalize_path( $real_file ), trailingslashit( wp_normalize_path( $real_directory ) ) ) !== 0 ) {
+		return false;
+	}
+
+	wp_delete_file( $file );
+
+	return true;
 }
 
 /**
