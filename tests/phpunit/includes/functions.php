@@ -192,7 +192,7 @@ function _wp_rest_server_class_filter() {
 tests_add_filter( 'send_auth_cookies', '__return_false' );
 
 /**
- * Check `mb_*()` functions exist.
+ * Return true if `mb_*()` functions exist.
  */
 function _mbfunctions_exist() {
     static $test = null;
