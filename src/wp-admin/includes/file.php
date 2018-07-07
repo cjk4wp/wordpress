@@ -824,7 +824,16 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		return call_user_func_array( $upload_error_handler, array( &$file, $uploads['error'] ) );
 	}
 
-	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
+	$tmp_file_name = $file['name'];
+	$ext           = pathinfo( $tmp_file_name, PATHINFO_EXTENSION );
+	$name          = wp_basename( $tmp_file_name, ".$ext" );
+
+	// Change file name to be hashed if it contains multi-byte chars.
+	if ( ! is_ascii_text( $name ) ) {
+		$tmp_file_name = get_hashed_text() . ".$ext";
+	}
+
+	$filename = wp_unique_filename( $uploads['path'], $tmp_file_name, $unique_filename_callback );
 
 	// Move the file to the uploads dir.
 	$new_file = $uploads['path'] . "/$filename";
