@@ -242,4 +242,67 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->assertNotEmpty( $array['Project-Id-Version'] );
 		$this->assertNotEmpty( $array['X-Generator'] );
 	}
+
+	/**
+	 * The text length of excerpt should be counted by words.
+	 */
+	function test_length_of_excerpt_should_be_counted_by_words() {
+		global $post;
+
+		switch_to_locale( 'en_US' );
+
+		$args = array(
+			'post_content' => str_repeat( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 200 ),
+			'post_excerpt' => '',
+		);
+
+		$post = $this->factory()->post->create_and_get( $args );
+		setup_postdata( $post );
+
+		$expect = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat [&hellip;]</p>\n";
+		$this->expectOutputString( $expect );
+		the_excerpt();
+	}
+
+	/**
+	 * The text length of excerpt should be counted by chars.
+	 */
+	function test_length_of_excerpt_should_be_counted_by_chars() {
+		global $post;
+
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'post_content' => str_repeat( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 200 ),
+			'post_excerpt' => '',
+		);
+
+		$post = $this->factory()->post->create_and_get( $args );
+		setup_postdata( $post );
+
+		$expect = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore  [&hellip;]</p>\n";
+		$this->expectOutputString( $expect );
+		the_excerpt();
+	}
+
+	/**
+	 * The text length of excerpt should be counted by chars with Japanese.
+	 */
+	function test_length_of_excerpt_should_be_counted_by_chars_in_japanese() {
+		global $post;
+
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'post_content' => str_repeat( 'あ', 200 ),
+			'post_excerpt' => '',
+		);
+
+		$post = $this->factory()->post->create_and_get( $args );
+		setup_postdata( $post );
+
+		$expect = "<p>" . str_repeat( 'あ', 110 ) . " [&hellip;]</p>\n";
+		$this->expectOutputString( $expect );
+		the_excerpt();
+	}
 }

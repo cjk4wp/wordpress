@@ -52,5 +52,6 @@ msgstr "characters_including_spaces"
 
 #. translators: This sets the text length for the excerpt.
 #: wp-includes/formatting.php:3640
-msgid "excerpt_length"
+msgctxt "excerpt_length"
+msgid "55"
 msgstr "110"
