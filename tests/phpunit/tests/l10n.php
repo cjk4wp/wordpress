@@ -5,7 +5,6 @@
  * @group i18n
  */
 class Tests_L10n extends WP_UnitTestCase {
-
 	/**
 	 * @ticket 35961
 	 */
@@ -252,7 +251,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'en_US' );
 
 		$args = array(
-			'post_content' => str_repeat( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 200 ),
+			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 			'post_excerpt' => '',
 		);
 
@@ -262,6 +261,8 @@ class Tests_L10n extends WP_UnitTestCase {
 		$expect = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat [&hellip;]</p>\n";
 		$this->expectOutputString( $expect );
 		the_excerpt();
+
+		restore_previous_locale();
 	}
 
 	/**
@@ -273,7 +274,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'ja_JP' );
 
 		$args = array(
-			'post_content' => str_repeat( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 200 ),
+			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 			'post_excerpt' => '',
 		);
 
@@ -283,6 +284,8 @@ class Tests_L10n extends WP_UnitTestCase {
 		$expect = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore  [&hellip;]</p>\n";
 		$this->expectOutputString( $expect );
 		the_excerpt();
+
+		restore_previous_locale();
 	}
 
 	/**
@@ -304,9 +307,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		$expect = "<p>" . str_repeat( 'あ', 110 ) . " [&hellip;]</p>\n";
 		$this->expectOutputString( $expect );
 		the_excerpt();
-	}
 
-	public static function tearDownAfterClass() {
-		switch_to_locale( 'en_US' );
+		restore_previous_locale();
 	}
 }
