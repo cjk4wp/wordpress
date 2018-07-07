@@ -21,7 +21,7 @@ $ git svn rebase
 $ git push origin --all
 ```
 
-## How to crate patch
+## How to create patch
 
 Create a working branch:
 
