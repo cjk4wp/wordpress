@@ -42,3 +42,21 @@ Create a patch:
 ```
 $ git diff master --no-prefix
 ```
+
+## How to run phpunit
+
+To setup, run following commands:
+
+```
+git checkout master
+mysql -u root -e "CREATE DATABASE wordpress_tests;"
+cp wp-tests-config-sample.php wp-tests-config.php
+sed -i -e "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
+sed -i -e "s/yourusernamehere/root/" wp-tests-config.php
+sed -i -e "s/yourpasswordhere//" wp-tests-config.php
+npm install
+$(npm bin)/grunt
+svn checkout https://plugins.svn.wordpress.org/wordpress-importer/tags/0.6.3/ tests/phpunit/data/plugins/wordpress-importer
+```
+
+Then run `phpunit`.
