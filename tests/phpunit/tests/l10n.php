@@ -310,4 +310,27 @@ class Tests_L10n extends WP_UnitTestCase {
 
 		restore_previous_locale();
 	}
+
+	/**
+	 * The text length of excerpt should be counted by chars with Japanese.
+	 */
+	function test_length_of_excerpt_rss_should_be_counted_by_chars_in_japanese() {
+		global $post;
+
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'post_content' => str_repeat( 'あ', 200 ),
+			'post_excerpt' => '',
+		);
+
+		$post = $this->factory()->post->create_and_get( $args );
+		setup_postdata( $post );
+
+		$expect = str_repeat( 'あ', 110 ) . " [&#8230;]";
+		$this->expectOutputString( $expect );
+		the_excerpt_rss();
+
+		restore_previous_locale();
+	}
 }
