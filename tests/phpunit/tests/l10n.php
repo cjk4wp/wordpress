@@ -305,4 +305,8 @@ class Tests_L10n extends WP_UnitTestCase {
 		$this->expectOutputString( $expect );
 		the_excerpt();
 	}
+
+	public static function tearDownAfterClass() {
+		switch_to_locale( 'en_US' );
+	}
 }
