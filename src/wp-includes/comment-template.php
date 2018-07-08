@@ -593,7 +593,6 @@ function comment_date( $d = '', $comment_ID = 0 ) {
 function get_comment_excerpt( $comment_ID = 0 ) {
 	$comment      = get_comment( $comment_ID );
 	$comment_text = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
-	$words        = explode( ' ', $comment_text );
 
 	/* translators: This sets the text length for the comment excerpt. */
 	$comment_excerpt_length = intval( _x( '20', 'comment_excerpt_length' ) );
@@ -607,15 +606,8 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	 */
 	$comment_excerpt_length = apply_filters( 'comment_excerpt_length', $comment_excerpt_length );
 
-	$use_ellipsis = count( $words ) > $comment_excerpt_length;
-	if ( $use_ellipsis ) {
-		$words = array_slice( $words, 0, $comment_excerpt_length );
-	}
+	$excerpt = wp_trim_words( $comment_text, $comment_excerpt_length, '&hellip;' );
 
-	$excerpt = trim( join( ' ', $words ) );
-	if ( $use_ellipsis ) {
-		$excerpt .= '&hellip;';
-	}
 	/**
 	 * Filters the retrieved comment excerpt.
 	 *

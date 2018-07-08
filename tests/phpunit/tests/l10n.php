@@ -358,7 +358,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars.
+	 * The text length of draft in dashboard should be counted by chars.
 	 */
 	function test_length_of_draft_should_be_counted_by_words() {
 		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
@@ -385,7 +385,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars.
+	 * The text length of draft in dashboard should be counted by chars.
 	 */
 	function test_length_of_draft_should_be_counted_by_chars() {
 		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
@@ -412,7 +412,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars.
+	 * The text length of draft in dashboard should be counted by chars in Japanese.
 	 */
 	function test_length_of_draft_should_be_counted_by_chars_in_japanese() {
 		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
@@ -434,6 +434,69 @@ class Tests_L10n extends WP_UnitTestCase {
 		$result = ob_get_clean();
 
 		$this->assertTrue( !! strpos( $result, $expect ) );
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of draft in dashboard should be counted by chars.
+	 */
+	function test_length_of_comment_excerpt_should_be_counted_by_words() {
+		switch_to_locale( 'en_US' );
+
+		$args = array(
+			'comment_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+		);
+
+		$comment_id = $this->factory()->comment->create( $args );
+
+		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut&hellip;";
+
+		$comment_excerpt = get_comment_excerpt( $comment_id );
+
+		$this->assertSame( $expect, $comment_excerpt );
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of draft in dashboard should be counted by chars.
+	 */
+	function test_length_of_comment_excerpt_should_be_counted_by_chars() {
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'comment_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+		);
+
+		$comment_id = $this->factory()->comment->create( $args );
+
+		$expect = "Lorem ipsum dolor sit amet, consectetur &hellip;";
+
+		$comment_excerpt = get_comment_excerpt( $comment_id );
+
+		$this->assertSame( $expect, $comment_excerpt );
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of draft in dashboard should be counted by chars.
+	 */
+	function test_length_of_comment_excerpt_should_be_counted_by_chars_in_Japanese() {
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'comment_content' => str_repeat( 'あ', 200 ),
+		);
+
+		$comment_id = $this->factory()->comment->create( $args );
+
+		$expect = str_repeat( 'あ', 40 ) . "&hellip;";
+
+		$comment_excerpt = get_comment_excerpt( $comment_id );
+
+		$this->assertSame( $expect, $comment_excerpt );
 
 		restore_previous_locale();
 	}
