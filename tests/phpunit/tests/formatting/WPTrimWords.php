@@ -43,7 +43,6 @@ class Tests_Formatting_WPTrimWords extends WP_UnitTestCase {
 		$this->assertEquals( $text, wp_trim_words( $text ) );
 	}
 
-
 	function test_trims_to_20_counted_by_chars() {
 		switch_to_locale( 'ja_JP' );
 		$expected = substr( $this->long_text, 0, 20 ) . '&hellip;';
