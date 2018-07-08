@@ -42,4 +42,12 @@ class Tests_Formatting_WPTrimWords extends WP_UnitTestCase {
 		$text = 'This is some short text.';
 		$this->assertEquals( $text, wp_trim_words( $text ) );
 	}
+
+
+	function test_trims_to_20_counted_by_chars() {
+		switch_to_locale( 'ja_JP' );
+		$expected = substr( $this->long_text, 0, 20 ) . '&hellip;';
+		$this->assertEquals( $expected, wp_trim_words( $this->long_text, 20 ) );
+		restore_previous_locale();
+	}
 }
