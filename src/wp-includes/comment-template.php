@@ -595,6 +595,9 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	$comment_text = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
 	$words        = explode( ' ', $comment_text );
 
+	/* translators: This sets the text length for the comment excerpt. */
+	$comment_excerpt_length = intval( _x( '20', 'comment_excerpt_length' ) );
+
 	/**
 	 * Filters the amount of words used in the comment excerpt.
 	 *
@@ -602,7 +605,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	 *
 	 * @param int $comment_excerpt_length The amount of words you want to display in the comment excerpt.
 	 */
-	$comment_excerpt_length = apply_filters( 'comment_excerpt_length', 20 );
+	$comment_excerpt_length = apply_filters( 'comment_excerpt_length', $comment_excerpt_length );
 
 	$use_ellipsis = count( $words ) > $comment_excerpt_length;
 	if ( $use_ellipsis ) {

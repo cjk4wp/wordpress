@@ -55,3 +55,15 @@ msgstr "characters_including_spaces"
 msgctxt "excerpt_length"
 msgid "55"
 msgstr "110"
+
+#. translators: This sets the text length for the comment excerpt.
+#: src/wp-includes/comment-template.ph:599
+msgctxt "comment_excerpt_length"
+msgid "20"
+msgstr "40"
+
+#. translators: This sets the text length for the comment excerpt.
+#: src/wp-admin/includes/dashboard.php:591
+msgctxt "comment_excerpt_length"
+msgid "10"
+msgstr "40"
