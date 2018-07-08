@@ -5073,16 +5073,6 @@ function is_ascii_text( $str ) {
 }
 
 /**
- * Get hashed strings.
- *
- * @since 5.0.0
- * @return string Hashed text.
- */
-function get_hashed_text() {
-	return md5( uniqid( microtime() . mt_rand(), true ) );
-}
-
-/**
  * Sanitizes a multiline string from user input or from the database.
  *
  * The function is like sanitize_text_field(), but preserves

@@ -830,7 +830,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 
 	// Change file name to be hashed if it contains multi-byte chars.
 	if ( ! is_ascii_text( $name ) ) {
-		$tmp_file_name = get_hashed_text() . ".$ext";
+		$tmp_file_name = md5( $name ) . ".$ext";
 	}
 
 	$filename = wp_unique_filename( $uploads['path'], $tmp_file_name, $unique_filename_callback );
