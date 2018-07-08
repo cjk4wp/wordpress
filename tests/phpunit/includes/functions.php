@@ -190,18 +190,3 @@ function _wp_rest_server_class_filter() {
 // Skip `setcookie` calls in auth_cookie functions due to warning:
 // Cannot modify header information - headers already sent by ...
 tests_add_filter( 'send_auth_cookies', '__return_false' );
-
-/**
- * Return true if `mb_*()` functions exist.
- */
-function _mbfunctions_exist() {
-    static $test = null;
-
-    if ( $test !== null ) {
-        return $test;
-    }
-
-    $test = function_exists( 'mb_strlen' );
-
-    return $test;
-}
