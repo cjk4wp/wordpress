@@ -49,4 +49,12 @@ class Tests_Formatting_WPTrimWords extends WP_UnitTestCase {
 		$this->assertEquals( $expected, wp_trim_words( $this->long_text, 20 ) );
 		restore_previous_locale();
 	}
+
+	function test_trims_to_20_counted_by_chars_with_double_width_chars() {
+		switch_to_locale( 'ja_JP' );
+		$text = str_repeat( 'あ', 100 );
+		$expected = str_repeat( 'あ', 19 ) . '&hellip;';
+		$this->assertEquals( $expected, wp_trim_words( $text, 19 ) );
+		restore_previous_locale();
+	}
 }
