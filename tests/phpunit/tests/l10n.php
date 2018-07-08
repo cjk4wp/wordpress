@@ -312,24 +312,128 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars with Japanese.
+	 * The text length of excerpt should be counted by words.
 	 */
-	function test_length_of_excerpt_rss_should_be_counted_by_chars_in_japanese() {
+	function test_length_of_excerpt_rss_should_be_counted_by_words() {
 		global $post;
 
-		switch_to_locale( 'ja_JP' );
+		switch_to_locale( 'en_US' );
 
 		$args = array(
-			'post_content' => str_repeat( 'あ', 200 ),
+			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 			'post_excerpt' => '',
 		);
 
 		$post = $this->factory()->post->create_and_get( $args );
 		setup_postdata( $post );
 
-		$expect = str_repeat( 'あ', 110 ) . " [&#8230;]";
+		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat [&#8230;]";
 		$this->expectOutputString( $expect );
 		the_excerpt_rss();
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of excerpt should be counted by chars.
+	 */
+	function test_length_of_excerpt_rss_should_be_counted_by_chars() {
+		global $post;
+
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_excerpt' => '',
+		);
+
+		$post = $this->factory()->post->create_and_get( $args );
+		setup_postdata( $post );
+
+		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore  [&#8230;]";
+		$this->expectOutputString( $expect );
+		the_excerpt_rss();
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of excerpt should be counted by chars.
+	 */
+	function test_length_of_draft_should_be_counted_by_words() {
+		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
+
+		switch_to_locale( 'en_US' );
+
+		$args = array(
+			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_excerpt' => '',
+			'post_status'  => 'draft',
+		);
+
+		$post = $this->factory()->post->create( $args );
+
+		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do&hellip;";
+
+		ob_start();
+		wp_dashboard_recent_drafts();
+		$result = ob_get_clean();
+
+		$this->assertTrue( !! strpos( $result, $expect ) );
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of excerpt should be counted by chars.
+	 */
+	function test_length_of_draft_should_be_counted_by_chars() {
+		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
+
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_excerpt' => '',
+			'post_status'  => 'draft',
+		);
+
+		$post = $this->factory()->post->create( $args );
+
+		$expect = "Lorem ipsum dolor sit amet, consectetur &hellip;";
+
+		ob_start();
+		wp_dashboard_recent_drafts();
+		$result = ob_get_clean();
+
+		$this->assertTrue( !! strpos( $result, $expect ) );
+
+		restore_previous_locale();
+	}
+
+	/**
+	 * The text length of excerpt should be counted by chars.
+	 */
+	function test_length_of_draft_should_be_counted_by_chars_in_japanese() {
+		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
+
+		switch_to_locale( 'ja_JP' );
+
+		$args = array(
+			'post_content' => str_repeat( 'あ', 200 ),
+			'post_excerpt' => '',
+			'post_status'  => 'draft',
+		);
+
+		$post = $this->factory()->post->create( $args );
+
+		$expect = str_repeat( 'あ', 40 ) . "&hellip;";
+
+		ob_start();
+		wp_dashboard_recent_drafts();
+		$result = ob_get_clean();
+
+		$this->assertTrue( !! strpos( $result, $expect ) );
 
 		restore_previous_locale();
 	}

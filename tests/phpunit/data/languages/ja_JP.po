@@ -64,6 +64,6 @@ msgstr "40"
 
 #. translators: This sets the text length for the comment excerpt.
 #: src/wp-admin/includes/dashboard.php:591
-msgctxt "comment_excerpt_length"
+msgctxt "draft_length"
 msgid "10"
 msgstr "40"
