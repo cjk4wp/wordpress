@@ -392,6 +392,9 @@ class Tests_Mail extends WP_UnitTestCase {
 		$this->assertEquals( $expected_error_data, $call_args[0]->get_error_data() );
 	}
 
+	/**
+	 * @ticket 44548
+	 */
 	public function test_wp_mail_should_encode_base64_with_japanese()
 	{
 		$to = 'hello@example.com';
