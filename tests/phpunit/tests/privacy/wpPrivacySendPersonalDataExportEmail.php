@@ -81,8 +81,8 @@ class Tests_Privacy_WpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
 		$this->assertSame( 'request-confirmed', get_post_status( self::$request_id ) );
 		$this->assertSame( self::$requester_email, $mailer->get_recipient( 'to' )->address );
 		$this->assertContains( 'Personal Data Export', $mailer->get_sent()->subject );
-		$this->assertContains( $archive_url, $mailer->get_sent()->body );
-		$this->assertContains( 'please download it', $mailer->get_sent()->body );
+		$this->assertContains( $archive_url, base64_decode( $mailer->get_sent()->body ) );
+		$this->assertContains( 'please download it', base64_decode( $mailer->get_sent()->body ) );
 		$this->assertTrue( $email_sent );
 	}
 
@@ -128,7 +128,8 @@ class Tests_Privacy_WpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
 		remove_filter( 'wp_privacy_export_expiration', array( $this, 'modify_export_expiration' ) );
 
 		$mailer = tests_retrieve_phpmailer_instance();
-		$this->assertContains( 'we will automatically delete the file on December 18, 2017,', $mailer->get_sent()->body );
+		$this->assertContains( 'we will automatically delete the file on December 18, 2017,',
+				base64_decode( $mailer->get_sent()->body ) );
 	}
 
 	/**
@@ -155,7 +156,8 @@ class Tests_Privacy_WpPrivacySendPersonalDataExportEmail extends WP_UnitTestCase
 		remove_filter( 'wp_privacy_personal_data_email_content', array( $this, 'modify_email_content' ) );
 
 		$mailer = tests_retrieve_phpmailer_instance();
-		$this->assertContains( 'Custom content for request ID: ' . self::$request_id, $mailer->get_sent()->body );
+		$this->assertContains( 'Custom content for request ID: ' . self::$request_id,
+				base64_decode( $mailer->get_sent()->body ) );
 	}
 
 	/**
