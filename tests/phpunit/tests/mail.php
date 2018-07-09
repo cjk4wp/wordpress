@@ -80,7 +80,7 @@ class Tests_Mail extends WP_UnitTestCase {
 		$mailer = tests_retrieve_phpmailer_instance();
 
 		// We need some better assertions here but these catch the failure for now.
-		$this->assertEquals( $body, $mailer->get_sent()->body );
+		$this->assertEquals( $body, base64_decode( $mailer->get_sent()->body ) );
 		$this->assertTrue( strpos( $mailer->get_sent()->header, 'boundary="----=_Part_4892_25692638.1192452070893"' ) > 0 );
 		$this->assertTrue( strpos( $mailer->get_sent()->header, 'charset=' ) > 0 );
 	}
@@ -112,7 +112,7 @@ class Tests_Mail extends WP_UnitTestCase {
 		$this->assertEquals( 'The Carbon Guy', $mailer->get_recipient( 'cc' )->name );
 		$this->assertEquals( 'bcc@bcc.com', $mailer->get_recipient( 'bcc' )->address );
 		$this->assertEquals( 'The Blind Carbon Guy', $mailer->get_recipient( 'bcc' )->name );
-		$this->assertEquals( $message . "\n", $mailer->get_sent()->body );
+		$this->assertEquals( $message, base64_decode( $mailer->get_sent()->body ) );
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Tests_Mail extends WP_UnitTestCase {
 		$this->assertEquals( 'Name', $mailer->get_recipient( 'to' )->name );
 		$this->assertEquals( 'another_address@different-tld.com', $mailer->get_recipient( 'to', 0, 1 )->address );
 		$this->assertEquals( 'Another Name', $mailer->get_recipient( 'to', 0, 1 )->name );
-		$this->assertEquals( $message . "\n", $mailer->get_sent()->body );
+		$this->assertEquals( $message, base64_decode( $mailer->get_sent()->body ) );
 	}
 
 	function test_wp_mail_multiple_to_addresses() {
@@ -145,7 +145,7 @@ class Tests_Mail extends WP_UnitTestCase {
 		$mailer = tests_retrieve_phpmailer_instance();
 		$this->assertEquals( 'address@tld.com', $mailer->get_recipient( 'to' )->address );
 		$this->assertEquals( 'another_address@different-tld.com', $mailer->get_recipient( 'to', 0, 1 )->address );
-		$this->assertEquals( $message . "\n", $mailer->get_sent()->body );
+		$this->assertEquals( $message, base64_decode( $mailer->get_sent()->body ) );
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Tests_Mail extends WP_UnitTestCase {
 
 		$mailer = tests_retrieve_phpmailer_instance();
 		$this->assertEquals( 'address@tld.com', $mailer->get_recipient( 'to' )->address );
-		$this->assertEquals( $message . "\n", $mailer->get_sent()->body );
+		$this->assertEquals( $message, base64_decode( $mailer->get_sent()->body ) );
 	}
 
 	/**
@@ -401,16 +401,14 @@ class Tests_Mail extends WP_UnitTestCase {
 		$mailer = tests_retrieve_phpmailer_instance();
 		$this->assertSame( 'hello@example.com', $mailer->get_recipient( 'to' )->address );
 
-		// Subject should be encoded as MIME header field
 		$this->assertSame(
 			"こんにちはこのメールのタイトルはとても長い長い日本語のタイトルです。",
 			$mailer->get_sent()->subject
 		);
 
-		// Body should be encoded as ISO-2022-JP
 		$this->assertSame(
-			"日本語のメール\n",
-			$mailer->get_sent()->body
+			"日本語のメール",
+			base64_decode( $mailer->get_sent()->body )
 		);
 	}
 }
