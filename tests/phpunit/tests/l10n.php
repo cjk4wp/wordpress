@@ -6,6 +6,8 @@
  */
 class Tests_L10n extends WP_UnitTestCase {
 
+	private $long_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
 	/**
 	 * @ticket 35961
 	 */
@@ -252,7 +254,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'en_US' );
 
 		$args = array(
-			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_content' => $this->long_text,
 			'post_excerpt' => '',
 		);
 
@@ -275,7 +277,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'ja_JP' );
 
 		$args = array(
-			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_content' => $this->long_text,
 			'post_excerpt' => '',
 		);
 
@@ -321,7 +323,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'en_US' );
 
 		$args = array(
-			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_content' => $this->long_text,
 			'post_excerpt' => '',
 		);
 
@@ -344,7 +346,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'ja_JP' );
 
 		$args = array(
-			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_content' => $this->long_text,
 			'post_excerpt' => '',
 		);
 
@@ -362,25 +364,21 @@ class Tests_L10n extends WP_UnitTestCase {
 	 * @ticket 44541
 	 */
 	function test_length_of_draft_should_be_counted_by_words() {
-		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
+		require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 		switch_to_locale( 'en_US' );
 
 		$args = array(
-			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_content' => $this->long_text,
 			'post_excerpt' => '',
 			'post_status'  => 'draft',
 		);
 
-		$post = $this->factory()->post->create( $args );
+		$this->factory()->post->create( $args );
 
 		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do&hellip;";
-
-		ob_start();
 		wp_dashboard_recent_drafts();
-		$result = ob_get_clean();
-
-		$this->assertTrue( !! strpos( $result, $expect ) );
+		$this->expectOutputRegex( '/' . $expect . '/' );
 
 		restore_previous_locale();
 	}
@@ -389,12 +387,12 @@ class Tests_L10n extends WP_UnitTestCase {
 	 * @ticket 44541
 	 */
 	function test_length_of_draft_should_be_counted_by_chars() {
-		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
+		require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 		switch_to_locale( 'ja_JP' );
 
 		$args = array(
-			'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'post_content' => $this->long_text,
 			'post_excerpt' => '',
 			'post_status'  => 'draft',
 		);
@@ -402,12 +400,8 @@ class Tests_L10n extends WP_UnitTestCase {
 		$post = $this->factory()->post->create( $args );
 
 		$expect = "Lorem ipsum dolor sit amet, consectetur &hellip;";
-
-		ob_start();
 		wp_dashboard_recent_drafts();
-		$result = ob_get_clean();
-
-		$this->assertTrue( !! strpos( $result, $expect ) );
+		$this->expectOutputRegex( '/' . $expect . '/' );
 
 		restore_previous_locale();
 	}
@@ -416,7 +410,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	 * @ticket 44541
 	 */
 	function test_length_of_draft_should_be_counted_by_chars_in_japanese() {
-		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
+		require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 		switch_to_locale( 'ja_JP' );
 
@@ -426,15 +420,11 @@ class Tests_L10n extends WP_UnitTestCase {
 			'post_status'  => 'draft',
 		);
 
-		$post = $this->factory()->post->create( $args );
+		$this->factory()->post->create( $args );
 
 		$expect = str_repeat( 'あ', 40 ) . "&hellip;";
-
-		ob_start();
 		wp_dashboard_recent_drafts();
-		$result = ob_get_clean();
-
-		$this->assertTrue( !! strpos( $result, $expect ) );
+		$this->expectOutputRegex( '/' . $expect . '/' );
 
 		restore_previous_locale();
 	}
@@ -446,7 +436,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'en_US' );
 
 		$args = array(
-			'comment_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'comment_content' => $this->long_text,
 		);
 
 		$comment_id = $this->factory()->comment->create( $args );
@@ -467,7 +457,7 @@ class Tests_L10n extends WP_UnitTestCase {
 		switch_to_locale( 'ja_JP' );
 
 		$args = array(
-			'comment_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			'comment_content' => $this->long_text,
 		);
 
 		$comment_id = $this->factory()->comment->create( $args );
