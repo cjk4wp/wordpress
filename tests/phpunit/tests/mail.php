@@ -395,20 +395,14 @@ class Tests_Mail extends WP_UnitTestCase {
 	public function test_wp_mail_should_encode_base64_with_japanese()
 	{
 		$to = 'hello@example.com';
-		$subject = "こんにちはこのメールのタイトルはとても長い長い日本語のタイトルです。";
-		$message = "日本語のメール";
+		$subject = "けっして平生に説明人はもっとその活動たたまでをしがありましにもお話かけ合わうませから、どうには賑わすたくずますな。";
+		$message = "私は同年どうぞこういう返事事に対するののうちにやっただろ。まあ事実を料理院は同時にそのお話でんばかりからなりていでからも助力知れますますば、どうにはなりたますたます。";
 		wp_mail( $to, $subject, $message );
 		$mailer = tests_retrieve_phpmailer_instance();
 		$this->assertSame( 'hello@example.com', $mailer->get_recipient( 'to' )->address );
 
-		$this->assertSame(
-			"こんにちはこのメールのタイトルはとても長い長い日本語のタイトルです。",
-			$mailer->get_sent()->subject
-		);
-
-		$this->assertSame(
-			"日本語のメール",
-			base64_decode( $mailer->get_sent()->body )
-		);
+		$this->assertSame( $subject, $mailer->get_sent()->subject );
+		$this->assertSame( $message, base64_decode( $mailer->get_sent()->body ) );
+		$this->assertRegExp( '/Content-Transfer-Encoding:\s+?base64/', $mailer->get_sent()->header );
 	}
 }
