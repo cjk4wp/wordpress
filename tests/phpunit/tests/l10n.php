@@ -262,10 +262,11 @@ class Tests_L10n extends WP_UnitTestCase {
 		setup_postdata( $post );
 
 		$expect = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat [&hellip;]</p>\n";
-		$this->expectOutputString( $expect );
 		the_excerpt();
 
 		restore_previous_locale();
+
+		$this->expectOutputString( $expect );
 	}
 
 	/**
@@ -285,10 +286,11 @@ class Tests_L10n extends WP_UnitTestCase {
 		setup_postdata( $post );
 
 		$expect = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore  [&hellip;]</p>\n";
-		$this->expectOutputString( $expect );
 		the_excerpt();
 
 		restore_previous_locale();
+
+		$this->expectOutputString( $expect );
 	}
 
 	/**
@@ -308,10 +310,11 @@ class Tests_L10n extends WP_UnitTestCase {
 		setup_postdata( $post );
 
 		$expect = "<p>" . str_repeat( 'あ', 110 ) . " [&hellip;]</p>\n";
-		$this->expectOutputString( $expect );
 		the_excerpt();
 
 		restore_previous_locale();
+
+		$this->expectOutputString( $expect );
 	}
 
 	/**
@@ -331,10 +334,11 @@ class Tests_L10n extends WP_UnitTestCase {
 		setup_postdata( $post );
 
 		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat [&#8230;]";
-		$this->expectOutputString( $expect );
 		the_excerpt_rss();
 
 		restore_previous_locale();
+
+		$this->expectOutputString( $expect );
 	}
 
 	/**
@@ -354,10 +358,12 @@ class Tests_L10n extends WP_UnitTestCase {
 		setup_postdata( $post );
 
 		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore  [&#8230;]";
-		$this->expectOutputString( $expect );
+
 		the_excerpt_rss();
 
 		restore_previous_locale();
+
+		$this->expectOutputString( $expect );
 	}
 
 	/**
@@ -378,9 +384,10 @@ class Tests_L10n extends WP_UnitTestCase {
 
 		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do&hellip;";
 		wp_dashboard_recent_drafts();
-		$this->expectOutputRegex( '/' . $expect . '/' );
 
 		restore_previous_locale();
+
+		$this->expectOutputRegex( '/' . $expect . '/' );
 	}
 
 	/**
@@ -401,9 +408,10 @@ class Tests_L10n extends WP_UnitTestCase {
 
 		$expect = "Lorem ipsum dolor sit amet, consectetur &hellip;";
 		wp_dashboard_recent_drafts();
-		$this->expectOutputRegex( '/' . $expect . '/' );
 
 		restore_previous_locale();
+
+		$this->expectOutputRegex( '/' . $expect . '/' );
 	}
 
 	/**
@@ -424,9 +432,10 @@ class Tests_L10n extends WP_UnitTestCase {
 
 		$expect = str_repeat( 'あ', 40 ) . "&hellip;";
 		wp_dashboard_recent_drafts();
-		$this->expectOutputRegex( '/' . $expect . '/' );
 
 		restore_previous_locale();
+
+		$this->expectOutputRegex( '/' . $expect . '/' );
 	}
 
 	/**
@@ -438,16 +447,13 @@ class Tests_L10n extends WP_UnitTestCase {
 		$args = array(
 			'comment_content' => $this->long_text,
 		);
-
 		$comment_id = $this->factory()->comment->create( $args );
-
 		$expect = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut&hellip;";
-
 		$comment_excerpt = get_comment_excerpt( $comment_id );
 
-		$this->assertSame( $expect, $comment_excerpt );
-
 		restore_previous_locale();
+
+		$this->assertSame( $expect, $comment_excerpt );
 	}
 
 	/**
@@ -459,16 +465,13 @@ class Tests_L10n extends WP_UnitTestCase {
 		$args = array(
 			'comment_content' => $this->long_text,
 		);
-
 		$comment_id = $this->factory()->comment->create( $args );
-
 		$expect = "Lorem ipsum dolor sit amet, consectetur &hellip;";
-
 		$comment_excerpt = get_comment_excerpt( $comment_id );
 
-		$this->assertSame( $expect, $comment_excerpt );
-
 		restore_previous_locale();
+
+		$this->assertSame( $expect, $comment_excerpt );
 	}
 
 	/**
@@ -480,15 +483,12 @@ class Tests_L10n extends WP_UnitTestCase {
 		$args = array(
 			'comment_content' => str_repeat( 'あ', 200 ),
 		);
-
 		$comment_id = $this->factory()->comment->create( $args );
-
 		$expect = str_repeat( 'あ', 40 ) . "&hellip;";
-
 		$comment_excerpt = get_comment_excerpt( $comment_id );
 
-		$this->assertSame( $expect, $comment_excerpt );
-
 		restore_previous_locale();
+
+		$this->assertSame( $expect, $comment_excerpt );
 	}
 }
