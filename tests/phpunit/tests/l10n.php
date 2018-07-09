@@ -5,6 +5,7 @@
  * @group i18n
  */
 class Tests_L10n extends WP_UnitTestCase {
+
 	/**
 	 * @ticket 35961
 	 */
@@ -243,7 +244,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by words.
+	 * @ticket 44541
 	 */
 	function test_length_of_excerpt_should_be_counted_by_words() {
 		global $post;
@@ -266,7 +267,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_excerpt_should_be_counted_by_chars() {
 		global $post;
@@ -289,7 +290,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars with Japanese.
+	 * @ticket 44541
 	 */
 	function test_length_of_excerpt_should_be_counted_by_chars_in_japanese() {
 		global $post;
@@ -312,7 +313,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by words.
+	 * @ticket 44541
 	 */
 	function test_length_of_excerpt_rss_should_be_counted_by_words() {
 		global $post;
@@ -335,7 +336,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of excerpt should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_excerpt_rss_should_be_counted_by_chars() {
 		global $post;
@@ -358,7 +359,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of draft in dashboard should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_draft_should_be_counted_by_words() {
 		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
@@ -385,7 +386,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of draft in dashboard should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_draft_should_be_counted_by_chars() {
 		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
@@ -412,7 +413,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of draft in dashboard should be counted by chars in Japanese.
+	 * @ticket 44541
 	 */
 	function test_length_of_draft_should_be_counted_by_chars_in_japanese() {
 		require_once dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/wp-admin/includes/dashboard.php';
@@ -439,7 +440,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of draft in dashboard should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_comment_excerpt_should_be_counted_by_words() {
 		switch_to_locale( 'en_US' );
@@ -460,7 +461,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of draft in dashboard should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_comment_excerpt_should_be_counted_by_chars() {
 		switch_to_locale( 'ja_JP' );
@@ -481,7 +482,7 @@ class Tests_L10n extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The text length of draft in dashboard should be counted by chars.
+	 * @ticket 44541
 	 */
 	function test_length_of_comment_excerpt_should_be_counted_by_chars_in_Japanese() {
 		switch_to_locale( 'ja_JP' );

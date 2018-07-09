@@ -43,6 +43,9 @@ class Tests_Formatting_WPTrimWords extends WP_UnitTestCase {
 		$this->assertEquals( $text, wp_trim_words( $text ) );
 	}
 
+	/**
+	 * @ticket 44541
+	 */
 	function test_trims_to_20_counted_by_chars() {
 		switch_to_locale( 'ja_JP' );
 		$expected = substr( $this->long_text, 0, 20 ) . '&hellip;';
@@ -50,6 +53,9 @@ class Tests_Formatting_WPTrimWords extends WP_UnitTestCase {
 		restore_previous_locale();
 	}
 
+	/**
+	 * @ticket 44541
+	 */
 	function test_trims_to_20_counted_by_chars_with_double_width_chars() {
 		switch_to_locale( 'ja_JP' );
 		$text = str_repeat( 'あ', 100 );
