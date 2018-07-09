@@ -391,4 +391,26 @@ class Tests_Mail extends WP_UnitTestCase {
 		$this->assertEquals( 'wp_mail_failed', $call_args[0]->get_error_code() );
 		$this->assertEquals( $expected_error_data, $call_args[0]->get_error_data() );
 	}
+
+	public function test_wp_mail_should_encode_base64_with_japanese()
+	{
+		$to = 'hello@example.com';
+		$subject = "こんにちはこのメールのタイトルはとても長い長い日本語のタイトルです。";
+		$message = "日本語のメール";
+		wp_mail( $to, $subject, $message );
+		$mailer = tests_retrieve_phpmailer_instance();
+		$this->assertSame( 'hello@example.com', $mailer->get_recipient( 'to' )->address );
+
+		// Subject should be encoded as MIME header field
+		$this->assertSame(
+			"こんにちはこのメールのタイトルはとても長い長い日本語のタイトルです。",
+			$mailer->get_sent()->subject
+		);
+
+		// Body should be encoded as ISO-2022-JP
+		$this->assertSame(
+			"日本語のメール\n",
+			$mailer->get_sent()->body
+		);
+	}
 }
