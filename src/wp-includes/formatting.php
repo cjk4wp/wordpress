@@ -5058,6 +5058,21 @@ function sanitize_text_field( $str ) {
 }
 
 /**
+ * Check if it has only ASCII characters or not.
+ *
+ * @since 5.0.0
+ * @param string $str Strings that may contain none-ASCII chars.
+ * @return bool Return true if $str is ASCII text.
+ */
+function is_ascii_text( $str ) {
+	if ( preg_match( '/^[\\x{0000}-\\x{007F}]+$/u', $str, $match ) ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
  * Sanitizes a multiline string from user input or from the database.
  *
  * The function is like sanitize_text_field(), but preserves
