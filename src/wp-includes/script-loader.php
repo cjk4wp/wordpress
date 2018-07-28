@@ -565,6 +565,7 @@ function wp_default_scripts( &$scripts ) {
 			'noMatchesFound'               => __( 'No results found.' ),
 			'linkSelected'                 => __( 'Link selected.' ),
 			'linkInserted'                 => __( 'Link inserted.' ),
+			/* translators: Input word length for incremental post search. Start searching from the next number. */
 			'lengthForSearchInternalLinks' => _x( '2', 'search internal links' ),
 		)
 	);
