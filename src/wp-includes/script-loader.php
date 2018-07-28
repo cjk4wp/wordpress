@@ -558,13 +558,14 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
 		'wplink', 'wpLinkL10n', array(
-			'title'          => __( 'Insert/edit link' ),
-			'update'         => __( 'Update' ),
-			'save'           => __( 'Add Link' ),
-			'noTitle'        => __( '(no title)' ),
-			'noMatchesFound' => __( 'No results found.' ),
-			'linkSelected'   => __( 'Link selected.' ),
-			'linkInserted'   => __( 'Link inserted.' ),
+			'title'                        => __( 'Insert/edit link' ),
+			'update'                       => __( 'Update' ),
+			'save'                         => __( 'Add Link' ),
+			'noTitle'                      => __( '(no title)' ),
+			'noMatchesFound'               => __( 'No results found.' ),
+			'linkSelected'                 => __( 'Link selected.' ),
+			'linkInserted'                 => __( 'Link inserted.' ),
+			'lengthForSearchInternalLinks' => _x( '2', 'search internal links' ),
 		)
 	);
 
