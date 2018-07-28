@@ -509,7 +509,7 @@ var wpLink;
 			var waiting,
 				search = inputs.search.val() || '';
 
-			if ( search.length > 2 ) {
+			if ( search.length > parseInt( wpLinkL10n.lengthForSearchInternalLinks, 10 ) ) {
 				rivers.recent.hide();
 				rivers.search.show();
 
