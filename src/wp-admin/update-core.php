@@ -287,6 +287,18 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 			$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $core_update_version );
 		}
 	}
+
+	$compatible_php = ( empty( $plugin_data->update->requires_php ) || version_compare( substr( PHP_VERSION, 0, strlen( $plugin_data->update->requires_php ) ), $plugin_data->update->requires_php, '>=' ) );
+
+	if ( ! $compatible_php ) {
+		$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of PHP.' ) . '&nbsp;';
+		/* translators: %s: Updating PHP page URL */
+		$compat .= sprintf(
+			__( '<a href="%s">Learn more about updating PHP.</a>' ),
+			esc_url( __( 'https://wordpress.org/support/upgrade-php/' ) )
+		);
+	}
+
 	// Get the upgrade notice for the new plugin version.
 	if ( isset( $plugin_data->update->upgrade_notice ) ) {
 		$upgrade_notice = '<br />' . strip_tags( $plugin_data->update->upgrade_notice );
@@ -308,32 +320,34 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 	?>
 	<tr>
 		<td class="check-column">
+			<?php if ( $compatible_php ) : ?>
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-										<?php
-										/* translators: %s: plugin name */
-										printf(
-											__( 'Select %s' ),
-											$plugin_data->Name
-										);
+				<?php
+				/* translators: %s: plugin name */
+					echo esc_html( sprintf(
+						__( 'Select %s' ),
+						$plugin_data->Name
+					) );
 				?>
 				</label>
-			</td>
-			<td class="plugin-title"><p>
-				<?php echo $icon; ?>
-				<strong><?php echo $plugin_data->Name; ?></strong>
-				<?php
-				/* translators: 1: plugin version, 2: new version */
-				printf(
-					__( 'You have version %1$s installed. Update to %2$s.' ),
-					$plugin_data->Version,
-					$plugin_data->update->new_version
-				);
-				echo ' ' . $details . $compat . $upgrade_notice;
+			<?php endif; ?>
+		</td>
+		<td class="plugin-title"><p>
+			<?php echo $icon; ?>
+			<strong><?php echo esc_html( $plugin_data->Name ); ?></strong>
+			<?php
+			/* translators: 1: plugin version, 2: new version */
+			echo esc_html( sprintf(
+				__( 'You have version %1$s installed. Update to %2$s.' ),
+				$plugin_data->Version,
+				$plugin_data->update->new_version
+			) );
+			echo esc_html( ' ' . $details . $compat . $upgrade_notice );
 			?>
-			</p></td>
-		</tr>
-		<?php
+		</p></td>
+	</tr>
+	<?php
 }
 ?>
 	</tbody>
