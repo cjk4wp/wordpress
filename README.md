@@ -69,5 +69,6 @@ $ ./node_modules/.bin/grunt
 $ wp config create --dbname=wordpress --dbuser=root
 $ wp db create
 $ mv build/wp-config.php ./
+$ wp core install --url="http://localhost:8080" --title=WP --admin_user=admin --admin_email=admin@example.com --admin_password=admin
 $ wp server --docroot=build/
 ```
