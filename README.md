@@ -60,3 +60,14 @@ svn checkout https://plugins.svn.wordpress.org/wordpress-importer/tags/0.6.3/ te
 ```
 
 Then run `phpunit`.
+
+## How to launch WordPress with the WP-CLI
+
+```
+$ npm install
+$ ./node_modules/.bin/grunt
+$ wp config create --dbname=wordpress --dbuser=root
+$ wp db create
+$ mv build/wp-config.php ./
+$ wp server --docroot=build/
+```
