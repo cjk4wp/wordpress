@@ -72,3 +72,10 @@ $ mv build/wp-config.php ./
 $ wp core install --url="http://localhost:8080" --title=WP --admin_user=admin --admin_email=admin@example.com --admin_password=admin
 $ wp server --docroot=build/
 ```
+
+## Checkout the branch of SVN into git
+
+```
+$ git svn fetch svn
+$ git checkout -b 5.0 svn/5.0
+```
