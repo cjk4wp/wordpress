@@ -79,3 +79,11 @@ $ wp server --docroot=build/
 $ git svn fetch svn
 $ git checkout -b 5.0 svn/5.0
 ```
+
+### Sync the branch
+
+```
+$ git svn fetch svn
+$ git checkout 5.0
+$ git merge svn/5.0
+```
