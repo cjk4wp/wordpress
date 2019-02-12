@@ -377,21 +377,27 @@
 			 *
 			 * @return {void}
 			 */
-			$( 'input.newtag', ajaxtag ).keypress( function( event ) {
-				if ( 13 == event.which ) {
+			$( 'input.newtag', ajaxtag ).on( 'compositionend', function( event ) {
+				this.compositionend = true;
+			} ).keyup( function( event ) {
+				if ( true == this.compositionend ) {
+					this.compositionend = false;
+					return;
+				}
+				if ( 13 == event.which && true != this.compositionend ) {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 					event.preventDefault();
 					event.stopPropagation();
 				}
-			}).keypress( function( event ) {
+			} ).keypress( function( event ) {
 				if ( 13 == event.which ) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
-			}).each( function( i, element ) {
+			} ).each( function( i, element ) {
 				$( element ).wpTagsSuggest();
-			});
+			} );
 
 			/**
 			 * Before a post is saved the value currently in the new tag input field will be
