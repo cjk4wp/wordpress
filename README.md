@@ -1,8 +1,8 @@
 # WordPress
 
-[![Build Status](https://travis-ci.org/miya0001/wpdev.svg?branch=master)](https://travis-ci.org/miya0001/wpdev)
+[![Build Status](https://travis-ci.org/cjk4wp/wordpress.svg?branch=master)](https://travis-ci.org/cjk4wp/wordpress)
 
-This is a private development repository for WordPress
+This is a private development repository for WordPress.
 
 ## How to mirror SVN
 
