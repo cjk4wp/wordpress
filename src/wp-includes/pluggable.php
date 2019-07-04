@@ -450,6 +450,15 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 */
 		$phpmailer->CharSet = apply_filters( 'wp_mail_charset', $charset );
 
+		/**
+		 * Filters the default wp_mail() encoding.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param string $encoding Default email encoding.
+		 */
+		$phpmailer->Encoding = apply_filters( 'wp_mail_encoding', 'base64' );
+
 		// Set custom headers
 		if ( ! empty( $headers ) ) {
 			foreach ( (array) $headers as $name => $content ) {
